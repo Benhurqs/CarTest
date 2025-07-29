@@ -55,48 +55,6 @@ fun CarList(
     }
 }
 
-/*@Composable
-fun BottomSheetContent(car: Car) {
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = "Detalhes do Carro",
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
-        )
-        Spacer(Modifier.height(16.dp))
-
-        Text(text = "Modelo: ${car.nome_modelo}", fontSize = 16.sp)
-        Spacer(Modifier.height(8.dp))
-        Text(text = "Ano: ${car.ano}", fontSize = 16.sp)
-        Spacer(Modifier.height(8.dp))
-        Text(text = "Valor: R$ ${car.valor}", fontSize = 16.sp)
-        Spacer(Modifier.height(8.dp))
-        Text(text = "Combustível: ${car.combustivel}", fontSize = 16.sp)
-        Spacer(Modifier.height(8.dp))
-        Text(text = "Cor: ${car.cor}", fontSize = 16.sp)
-        Spacer(Modifier.height(8.dp))
-        Text(text = "Número de Portas: ${car.num_portas}", fontSize = 16.sp)
-        Spacer(Modifier.height(16.dp))
-
-
-        androidx.compose.material3.Button(
-            onClick = {
-
-                println("Botão 'Eu quero' clicado para o modelo ${car.nome_modelo}")
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        ) {
-            Text(text = "Eu quero", fontSize = 16.sp)
-        }
-    }
-}*/
-
 @Composable
 fun CarCardsComponent(
     car: Car,
@@ -143,9 +101,10 @@ fun CarCardsComponent(
     }
 }
 
+@Preview(apiLevel = 34)
 @Preview
 @Composable
-fun PreviewMessageCard() {
+fun PreviewCarList() {
     CarList(
         mutableListOf(
             Car(
