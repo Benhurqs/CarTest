@@ -1,15 +1,17 @@
-package com.benhurqs.test
+package com.benhurqs.test.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -20,51 +22,50 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import java.text.NumberFormat
 import java.util.Locale
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.benhurqs.test.data.Car
+import com.benhurqs.test.mvi.CarAction
+import com.benhurqs.test.mvi.LaunchOne
+import com.benhurqs.test.viewmodel.CarViewModel
 
-@ExperimentalMaterial3Api
 @Composable
 fun MainScreen(
-    carList: List<Car>,
-    onCarClick: (Car) -> Unit,
-    sheetState: BottomSheetState
+    viewModel: CarViewModel = hiltViewModel()
 ) {
-    Column(
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchOne { viewModel.dispatch(CarAction.InitScreen) }
+
+    CarList(uiState.list) { viewModel.dispatch(CarAction.OnClickCar(it)) }
+}
+
+@Composable
+fun CarList(
+    carList: List<Car>,
+    onClick: (Car) -> Unit
+) {
+    LazyColumn(
         Modifier
-            .fillMaxSize()
             .background(color = Color.White)
             .padding(horizontal = 16.dp)
     ) {
-        Text(
-            text = "Carros à Venda",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(carList) { car ->
-                CarCardsComponent(car = car, onClick = { onCarClick(car) })
-            }
-        }
-    }
-
-    if (sheetState.getSelectedCar() != null) {
-        ModalBottomSheet(
-            sheetState = sheetState.sheetState,
-            onDismissRequest = { sheetState.hide() }
-        ) {
-            BottomSheetContent(car = sheetState.getSelectedCar()!!)
+        items(carList) { car ->
+            CarCardsComponent(car, onClick)
         }
     }
 }
 
-@Composable
+/*@Composable
 fun BottomSheetContent(car: Car) {
     Column(
         modifier = Modifier
@@ -78,7 +79,7 @@ fun BottomSheetContent(car: Car) {
         )
         Spacer(Modifier.height(16.dp))
 
-        Text(text = "Modelo: ${car.nomeModelo}", fontSize = 16.sp)
+        Text(text = "Modelo: ${car.nome_modelo}", fontSize = 16.sp)
         Spacer(Modifier.height(8.dp))
         Text(text = "Ano: ${car.ano}", fontSize = 16.sp)
         Spacer(Modifier.height(8.dp))
@@ -88,14 +89,14 @@ fun BottomSheetContent(car: Car) {
         Spacer(Modifier.height(8.dp))
         Text(text = "Cor: ${car.cor}", fontSize = 16.sp)
         Spacer(Modifier.height(8.dp))
-        Text(text = "Número de Portas: ${car.numPortas}", fontSize = 16.sp)
+        Text(text = "Número de Portas: ${car.num_portas}", fontSize = 16.sp)
         Spacer(Modifier.height(16.dp))
 
 
         androidx.compose.material3.Button(
             onClick = {
 
-                println("Botão 'Eu quero' clicado para o modelo ${car.nomeModelo}")
+                println("Botão 'Eu quero' clicado para o modelo ${car.nome_modelo}")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,12 +105,12 @@ fun BottomSheetContent(car: Car) {
             Text(text = "Eu quero", fontSize = 16.sp)
         }
     }
-}
+}*/
 
 @Composable
 fun CarCardsComponent(
     car: Car,
-    onClick: () -> Unit
+    onClick: (Car) -> Unit
 ) {
     val valorFormatado = NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(car.valor)
 
@@ -120,7 +121,7 @@ fun CarCardsComponent(
         modifier = Modifier
             .padding(vertical = 8.dp)
             .fillMaxWidth()
-            .clickable { onClick() }
+            .clickable { onClick(car) }
     ) {
         Column {
             Box(
@@ -131,7 +132,7 @@ fun CarCardsComponent(
             )
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = "Modelo: ${car.nomeModelo}",
+                    text = "Modelo: ${car.nome_modelo}",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -152,3 +153,26 @@ fun CarCardsComponent(
     }
 }
 
+@Preview
+@Composable
+fun PreviewMessageCard() {
+    CarList(
+        mutableListOf(
+            Car(
+                nome_modelo = "uno",
+                ano = 2002,
+                valor = 50000.00
+            ),
+            Car(
+                nome_modelo = "gol",
+                ano = 2002,
+                valor = 50000.00
+            ),
+            Car(
+                nome_modelo = "bmw",
+                ano = 2002,
+                valor = 50000.00
+            ),
+        )
+    ){}
+}
