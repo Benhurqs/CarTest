@@ -29,6 +29,7 @@ fun MainScreen(carList: List<String>) {
             .padding(horizontal = 16.dp)
     ) {
         items(carList) { car ->
+
             CarCardsComponent(car)
         }
     }
