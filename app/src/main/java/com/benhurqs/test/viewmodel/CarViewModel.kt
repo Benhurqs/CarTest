@@ -31,11 +31,26 @@ class CarViewModel @Inject constructor(private val repository: CarRepository, ap
             is CarAction.OnClickCar -> selectCar(event.car)
             is CarAction.OnClickSaveCar -> {
                 updateModalState()
-                saveCar()
+                showUserDialog()
+                //saveCar()
             }
+            is CarAction.OnCloseDialog -> hideUserDialog()
             is CarAction.OnCloseModal -> updateModalState()
             is CarAction.OnSaveUser -> saveUser(event.user)
         }
+    }
+
+    private fun showUserDialog() {
+        _uiState.value = uiState.value.copy(
+            showDialog = true
+        )
+    }
+
+
+    private fun hideUserDialog() {
+        _uiState.value = uiState.value.copy(
+            showDialog = false
+        )
     }
 
     private fun saveUser(user: UserData){
