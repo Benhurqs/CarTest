@@ -10,7 +10,7 @@ interface LeadDao {
     suspend fun insertLead(lead: LeadData)
 
     @Query("DELETE FROM lead_table")
-    suspend fun deleteLocations()
+    suspend fun deleteLeads()
 
     @Query("SELECT * FROM lead_table ORDER BY id")
     fun getLead(): Flow<List<LeadData>>

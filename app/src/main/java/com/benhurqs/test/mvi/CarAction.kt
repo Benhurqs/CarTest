@@ -10,4 +10,6 @@ interface CarAction {
     data object OnCloseModal: CarAction
     data object OnCloseDialog: CarAction
     data class OnSaveUser(val user: UserData): CarAction
+    data object SendLeads: CarAction
+    data object StopPooling: CarAction
 }

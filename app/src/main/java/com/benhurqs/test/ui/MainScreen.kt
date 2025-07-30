@@ -15,6 +15,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import java.text.NumberFormat
 import java.util.Locale
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.benhurqs.test.data.model.Car
 import com.benhurqs.test.mvi.CarAction
@@ -34,7 +38,19 @@ fun MainScreen(
     viewModel: CarViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    LaunchOne { viewModel.dispatch(CarAction.InitScreen) }
+    LaunchOne {
+        viewModel.dispatch(CarAction.InitScreen)
+        viewModel.dispatch(CarAction.SendLeads)
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+
+    LaunchedEffect(lifecycleState) {
+        if(lifecycleState == Lifecycle.State.DESTROYED) {
+            viewModel.dispatch(CarAction.StopPooling)
+        }
+    }
 
     CarList(uiState.list) { viewModel.dispatch(CarAction.OnClickCar(it)) }
 }
