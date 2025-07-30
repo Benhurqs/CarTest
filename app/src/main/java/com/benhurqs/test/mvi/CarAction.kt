@@ -1,8 +1,7 @@
 package com.benhurqs.test.mvi
 
-import com.benhurqs.test.data.Car
-import com.benhurqs.test.data.CarResponse
-import com.benhurqs.test.data.UserData
+import com.benhurqs.test.data.model.Car
+import com.benhurqs.test.data.model.UserData
 
 interface CarAction {
     data object InitScreen: CarAction

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.benhurqs.test.data.Car
+import com.benhurqs.test.data.model.Car
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -24,7 +24,7 @@ import java.text.NumberFormat
 import java.util.Locale
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.benhurqs.test.data.Car
+import com.benhurqs.test.data.model.Car
 import com.benhurqs.test.mvi.CarAction
 import com.benhurqs.test.mvi.LaunchOne
 import com.benhurqs.test.viewmodel.CarViewModel

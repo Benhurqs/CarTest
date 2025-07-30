@@ -3,9 +3,9 @@ package com.benhurqs.test.viewmodel
 import androidx.lifecycle.AndroidViewModel
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import com.benhurqs.test.data.Car
+import com.benhurqs.test.data.model.Car
 import com.benhurqs.test.data.CarRepository
-import com.benhurqs.test.data.UserData
+import com.benhurqs.test.data.model.UserData
 import com.benhurqs.test.data.remote.utils.ApiStatus
 import com.benhurqs.test.mvi.CarAction
 import com.benhurqs.test.mvi.CarViewState

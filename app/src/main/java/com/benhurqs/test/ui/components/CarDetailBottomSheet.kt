@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.benhurqs.test.data.Car
+import com.benhurqs.test.data.model.Car
 import com.benhurqs.test.mvi.CarAction
 import com.benhurqs.test.viewmodel.CarViewModel
 import kotlinx.coroutines.launch
@@ -112,9 +112,11 @@ fun ButtonComponent(onClick: () -> Unit) {
 @Preview(apiLevel = 34)
 @Composable
 fun PreviewBottomSheet() {
-    BottomSheetContent(Car(
+    BottomSheetContent(
+        Car(
         nome_modelo = "bmw",
         ano = 2002,
         valor = 50000.00
-    )) { }
+    )
+    ) { }
 }

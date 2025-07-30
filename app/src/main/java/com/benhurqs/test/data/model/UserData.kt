@@ -1,4 +1,4 @@
-package com.benhurqs.test.data
+package com.benhurqs.test.data.model
 
 data class UserData(
     val name: String,
